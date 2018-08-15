@@ -26,6 +26,8 @@ class DeclarationTableView: UITableViewController, UISearchResultsUpdating {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.separatorStyle = .none
+        
         favorite = workingCoreData.fetchData()
         loadDeclarationData()
         
@@ -33,10 +35,32 @@ class DeclarationTableView: UITableViewController, UISearchResultsUpdating {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if CheckInternet.Connection(){
+            print("Internet connection OK")
+        }else{
+            
+            self.Alert(Message: "Make sure your device is connected to the internet.")
+        }
+        
+    }
+    
+    func Alert (Message: String){
+        
+        let alert = UIAlertController(title: "No Internet Connection", message: Message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        
+        
+    }
     
     func loadDeclarationData(){
-        
-        tableView.separatorStyle = .none
+    
+        let activityIndicator = UIActivityIndicatorView()
+        tableView.backgroundView = activityIndicator
+        activityIndicator.color = .orange
+        activityIndicator.startAnimating()
         
         loadData.downloadData(URL_DATA: Constants.declarationUrl){
             
@@ -44,6 +68,7 @@ class DeclarationTableView: UITableViewController, UISearchResultsUpdating {
             self.declarations = self.loadData.returnData()
             
             if self.declarations.count == self.loadData.batchSize{
+                activityIndicator.stopAnimating()
                 self.reloadTableView()
                 self.searchController()
             }
@@ -93,6 +118,7 @@ class DeclarationTableView: UITableViewController, UISearchResultsUpdating {
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
             controller.searchBar.searchBarStyle = .minimal
+            controller.searchBar.tintColor = .orange
             self.tableView.tableHeaderView = controller.searchBar
             return controller
         })()

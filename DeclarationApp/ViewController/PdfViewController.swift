@@ -19,19 +19,19 @@ class PdfViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back")
+        pdfView.backgroundColor = .white
         
-        if pdfURL != " "{
-            downloadPDF()
-        } else {
-            noValueLabel.textColor = UIColor.darkGray
-            noValueLabel.text = "PDF is missing"
-            pdfView.backgroundColor = .white
-            self.pdfView.addSubview(noValueLabel)
-
+        if CheckInternet.Connection(){
+            if pdfURL != " " {
+                downloadPDF()
+            } else {
+                noValueLabel.textColor = UIColor.darkGray
+                noValueLabel.text = "PDF is missing"
+                self.pdfView.addSubview(noValueLabel)
+            }
         }
     }
-    
+
     func downloadPDF(){
         
         print(pdfURL)
@@ -45,7 +45,6 @@ class PdfViewController: UIViewController {
             pdfView.displaysAsBook = true
             pdfView.displayDirection = .vertical
             pdfView.document = pdfDOC
-            pdfView.backgroundColor = .white
             pdfView.autoScales = true
             pdfView.maxScaleFactor = 4.0
             pdfView.minScaleFactor = pdfView.scaleFactorForSizeToFit
