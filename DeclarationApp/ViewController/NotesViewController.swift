@@ -33,8 +33,7 @@ class NotesViewController: UIViewController {
         noteView.layer.shadowRadius = 6.0
         
         notesTextView.tintColor = .darkGray
-        let newPosition = notesTextView.beginningOfDocument
-        notesTextView.selectedTextRange = notesTextView.textRange(from: newPosition, to: newPosition)
+        notesTextView.text = note
 
     }
     

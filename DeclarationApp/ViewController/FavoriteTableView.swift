@@ -83,6 +83,7 @@ class FavoriteTableView: UITableViewController {
             notesScene.pdfURL = selectedVehicle.linkPdf!
             notesScene.id = selectedVehicle.id!
             notesScene.position = selectedVehicle.position!
+            notesScene.note = selectedVehicle.note!
         
         }
     }
